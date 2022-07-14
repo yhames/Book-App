@@ -37,7 +37,7 @@ class BookControllerTest {
     }
 
     @Test
-    @DisplayName("책 등록")
+    @DisplayName("책 저장")
     void bookSave() throws Exception {
         // given
         BookCreate request = BookCreate.builder()
@@ -59,4 +59,6 @@ class BookControllerTest {
         assertEquals("책제목", book.getTitle());
         assertEquals("책소개", book.getContents());
     }
+
+    // TODO : 책 저장시 title 값 필수
 }
