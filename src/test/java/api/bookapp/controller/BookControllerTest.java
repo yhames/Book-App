@@ -60,5 +60,21 @@ class BookControllerTest {
         assertEquals("책소개", book.getContents());
     }
 
-    // TODO : 책 저장시 title 값 필수
+    @Test
+    @DisplayName("책 저장 - title 필수")
+    void bookSave_title() throws Exception {
+        // given
+        BookCreate request = BookCreate.builder()
+                .contents("책소개")
+                .build();
+        String json = objectMapper.writeValueAsString(request);
+
+        // expected
+        mockMvc.perform(post("/books")
+                        .contentType(APPLICATION_JSON)
+                        .content(json))
+                .andExpect(status().isBadRequest())
+                .andDo(print());
+    }
+    // TODO: title 검증
 }
