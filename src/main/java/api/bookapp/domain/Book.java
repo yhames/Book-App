@@ -5,10 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -19,20 +16,24 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    /**
-     * 도서 제목
-     */
     private String title;
 
-
-    /**
-     * 도서 소개
-     */
+    @Lob
     private String contents;
 
+    private String author;
+
+    private String publisher;
+
+    private String isbn;
+
+
     @Builder
-    public Book(String title, String contents) {
+    public Book(String title, String contents, String author, String publisher, String isbn) {
         this.title = title;
         this.contents = contents;
+        this.author = author;
+        this.publisher = publisher;
+        this.isbn = isbn;
     }
 }
