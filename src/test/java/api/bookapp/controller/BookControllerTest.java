@@ -12,6 +12,11 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.http.MediaType.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -61,20 +66,97 @@ class BookControllerTest {
     }
 
     @Test
-    @DisplayName("책 저장 - title 필수")
-    void bookSave_title() throws Exception {
+    @DisplayName("책 저장 - title 검증")
+    void bookSaveValidateTitle() throws Exception {
         // given
         BookCreate request = BookCreate.builder()
                 .contents("책소개")
                 .build();
         String json = objectMapper.writeValueAsString(request);
 
-        // expected
+        // Expected
         mockMvc.perform(post("/books")
                         .contentType(APPLICATION_JSON)
                         .content(json))
                 .andExpect(status().isBadRequest())
                 .andDo(print());
     }
-    // TODO: title 검증
+
+
+    @Test
+    @DisplayName("책 저장 - 검증")
+    void bookSaveValidateContents() throws Exception {
+        Random random = new Random();
+        int lobLength = 501;
+        String lob = random.ints('가', '하')
+                .limit(lobLength)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
+
+        // given
+        BookCreate request = BookCreate.builder()
+                .title("책제목")
+                .contents(lob)
+                .build();
+        String json = objectMapper.writeValueAsString(request);
+
+        // Expected
+        mockMvc.perform(post("/books")
+                        .contentType(APPLICATION_JSON)
+                        .content(json))
+                .andExpect(status().isBadRequest())
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("책 저장 - author 검증")
+    void bookSaveValidateAuthor() throws Exception {
+        Random random = new Random();
+        int lobLength = 21;
+        String lob = random.ints('가', '하')
+                .limit(lobLength)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
+
+        // given
+        BookCreate request = BookCreate.builder()
+                .title("책제목")
+                .author(lob)
+                .build();
+        String json = objectMapper.writeValueAsString(request);
+
+        // Expected
+        mockMvc.perform(post("/books")
+                        .contentType(APPLICATION_JSON)
+                        .content(json))
+                .andExpect(status().isBadRequest())
+                .andDo(print());
+    }
+
+    @Test
+    @DisplayName("책 저장 - publisher 검증")
+    void bookSaveValidatePublisher() throws Exception {
+        Random random = new Random();
+        int lobLength = 21;
+        String lob = random.ints('가', '하')
+                .limit(lobLength)
+                .collect(StringBuilder::new, StringBuilder::appendCodePoint, StringBuilder::append)
+                .toString();
+
+        // given
+        BookCreate request = BookCreate.builder()
+                .title("책제목")
+                .publisher(lob)
+                .build();
+        String json = objectMapper.writeValueAsString(request);
+
+        // Expected
+        mockMvc.perform(post("/books")
+                        .contentType(APPLICATION_JSON)
+                        .content(json))
+                .andExpect(status().isBadRequest())
+                .andDo(print());
+    }
+
+
 }
