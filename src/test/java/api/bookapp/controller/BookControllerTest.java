@@ -48,6 +48,9 @@ class BookControllerTest {
         BookCreate request = BookCreate.builder()
                 .title("책제목")
                 .contents("책소개")
+                .author("책저자")
+                .publisher("출판사")
+                .isbn("9791161291017")
                 .build();
         String json = objectMapper.writeValueAsString(request);
 
@@ -63,6 +66,9 @@ class BookControllerTest {
         Book book = bookRepository.findAll().get(0);
         assertEquals("책제목", book.getTitle());
         assertEquals("책소개", book.getContents());
+        assertEquals("책저자", book.getAuthor());
+        assertEquals("출판사", book.getPublisher());
+        assertEquals("9791161291017", book.getIsbn());
     }
 
     @Test
@@ -84,7 +90,7 @@ class BookControllerTest {
 
 
     @Test
-    @DisplayName("책 저장 - 검증")
+    @DisplayName("책 저장 - contents 검증")
     void bookSaveValidateContents() throws Exception {
         Random random = new Random();
         int lobLength = 501;
@@ -158,5 +164,7 @@ class BookControllerTest {
                 .andDo(print());
     }
 
+    // TODO: ISBN 검증
 
+    // TODO: getList Test
 }

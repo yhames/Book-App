@@ -1,11 +1,14 @@
 package api.bookapp.controller;
 
 import api.bookapp.request.BookCreate;
+import api.bookapp.response.BookResponse;
 import api.bookapp.service.BookService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -23,25 +26,15 @@ public class BookController {
     }
 
     /**
-     * 책 간편 조회 - 리스트형
-     * response - title
-     */
-    @GetMapping("/")
-    public void home() {
-
-    }
-
-    /**
-     * 책 전체 조회 - 갤러리형
-     * response: title, author, img
+     * 책 조회 - 전체
      */
     @GetMapping("/books")
-    public void getList() {
-
+    public List<BookResponse> getList() {
+        return bookService.getList();
     }
 
     /**
-     * 책 상세 조회 - 상세보기
+     * 책 조회 - 상세
      */
     @GetMapping("/books/{bookId}")
     public void get(@PathVariable Long bookId) {
@@ -49,7 +42,7 @@ public class BookController {
     }
 
     /**
-     * 책 정보 수정
+     * 책 수정
      */
     @PatchMapping("/books/{bookId}")
     public void update(@PathVariable Long bookId) {

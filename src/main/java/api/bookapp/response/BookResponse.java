@@ -2,12 +2,14 @@ package api.bookapp.response;
 
 import api.bookapp.domain.Book;
 import lombok.Builder;
+import lombok.Getter;
 
+@Getter
 public class BookResponse {
 
     private Long id;
     private String title;
-    private String contents;    //TODO: 글자 수 제한
+    private String contents;
     private String author;
     private String publisher;
     private String isbn;
